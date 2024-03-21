@@ -1,0 +1,1 @@
+MASTER_PORT=8082 MASTER_ADDR=127.0.0.1 WORLD_SIZE=1 RANK=0 LOCAL_RANK=0 python /home/shujliu/code/Open-Sora/scripts/train.py configs/opensora/train/64x512x512.py --data-path /home/shujliu/data/OpenSoraDataSet/MSRVTT-collated/train/annotations.csv
