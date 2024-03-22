@@ -1,4 +1,4 @@
-description: speech_lm
+description: avgen-job
 
 target:
 #  name: spch-sing-am-e2e-eu
@@ -6,217 +6,36 @@ target:
 #  name: gcrprojvc1
 
 #  name: cogs-sing-shared-eu
-  name: cogs-sing-shared-sc
+#  name: cogs-sing-shared-sc
 #  name: cogs-sing-shared-wu2
-
+  name: msrresrchvc
   service: sing
 
 environment:
-  image:  wumark/valle:flash_v2  # unset CUDA_VISIBLE_DEVICES
-  setup:
-    - pip install timm
-    
+  image:  j4ckl1u/open_sora:latest  # unset CUDA_VISIBLE_DEVICES
+
 code:
-  local_dir: $CONFIG_DIR/../..
+  local_dir: ./
 
 storage:
-  data_blob:
-    storage_account_name: tsstd01eus
-#    storage_account_name: tsstd01scus
-#    storage_account_name: tsstd01wus3
-#    storage_account_name: tsprmblob01eus
-#    storage_account_name: tsprmblob01scus
-#    storage_account_name: tsprmblob01wus3
-    container_name: data
-    mount_dir: /datablob
-    mount_options:
-    - -o
-    - attr_timeout=240
-    - -o
-    - entry_timeout=240
-    - -o
-    - negative_timeout=120
-    - -o
-    - allow_other
-    - --log-level=LOG_WARNING
-    - --file-cache-timeout-in-seconds=1800
   blob_model:
-    storage_account_name: tsstd01eus
+    storage_account_name: tsstd01wus2
 #    storage_account_name: tsstd01scus
 #    storage_account_name: tsstd01wus3
     container_name: models
     mount_dir: /modelblob
     mount_options:
     - --file-cache-timeout-in-seconds=1800
-  myblob_data:
-    storage_account_name: tsstd01eus
-#    storage_account_name: tsstd01scus
-#    storage_account_name: tsstd01wus3
-    container_name: users
-#    container_name: data
-    mount_dir: /tsstd01eus_users
-    mount_options:
-    - -o
-    - attr_timeout=240
-    - -o
-    - entry_timeout=240
-    - -o
-    - negative_timeout=120
-    - -o
-    - allow_other
-    - --log-level=LOG_WARNING
-    - --file-cache-timeout-in-seconds=1800
-
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml train_valle_sleep -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sope_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_eu -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs384k_lr3e-4_400k_valle_nat_flash_1b_sope -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr3e-3_400k_valle_at_flash_large_l24_sope_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr5e-3_400k_valle_at_flash_large_l24_sope_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr1e-3_400k_valle_at_flash_large_l24_sope_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs512k_lr3e-3_400k_valle_at_flash_large_l24_sope_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sope_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_step_0_1_bpe_1prompt_bs512k_lr15e-4_400k_valle_at_flash_large_l24_sope_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_step_1_8_bpe_2prompt3_30s_bs512k_lr15e-4_400k_valle_nat_flash_large_l24_sope_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_v_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_sin_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_rope_split_sin -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_rope_split2 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sin_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sin_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs224k_lr15e-4_400k_valle_at_flash_large_l24_rpe_s64_a800 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs256k_lr15e-4_400k_valle_nat_flash_large_l24_do_rpe_s80_a800_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_rme_bs256k_lr15e-4_400k_valle_nat_flash_large_l24_do_rpe_s80_a800 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr5e-4_400k_valle_nat_flash_large_l24 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_sin_sc_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accentra_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do_bonus1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr1e-4_400k_valle_nat_flash_large_l24 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_long_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_accent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_bonus -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_init_900k_step_0_1_bpe_1prompt_bs512k_lr1e-4_40k_valle_at_flash_large_l24_sope -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_init_900k_step_0_1_bpe_1prompt_bs512k_lr1e-4_100k_valle_at_flash_large_l24_sope -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_pdlr15e-4_400k_valle_nat_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_800k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_800k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr3e-3_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs512k_lr15e-4_400k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_900k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs512k_lr15e-4_400k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_800k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_800k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_reid2_codec_init200k_1spk_sim03_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_reid2_codec_init200k_1spk_sim03_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_reid2_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_reid2_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_punc_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_punc_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_reid2_init200k_punc_1spk_sim03_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do_1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_reid2_init200k_punc_1spk_sim03_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_bill_init200k_1spk_sim05_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_bill_init200k_1spk_sim05_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_bill_init200k_punc_1spk_sim05_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do2 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_consec_bill_init200k_punc_1spk_sim05_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do2b -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_ttsphn_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_ttsphn_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_ttsphn_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do1 -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_ms_flash_200k_1spk_1spw_5.3ent_bpe_1prompt_bs320k_lr15e-4_400k_valle_ms_flash_large_l24_dob -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_dac_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_dob -y
-# amlt run .\submit_script\sing\train_valle_flash_large.yaml chunk_valle_flash_200k_dac_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_dob -y
 
 jobs:
 - command:
-  - unset CUDA_VISIBLE_DEVICES
-  - ls /tsstd01eus_users
-  - ls /datablob
-  - bash zehua_jobs/train.sh chunk_valle_flash_consec_bill_init200k_1spk_sim05_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do_new_data.yaml
-  - sleep 2h
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_dac_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_ms_flash_200k_1spk_1spw_5.3ent_bpe_1prompt_bs320k_lr15e-4_400k_valle_ms_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_ttsphn_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_ttsphn_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_bill_init200k_punc_1spk_sim05_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_bill_init200k_punc_1spk_sim05_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_bill_init200k_1spk_sim05_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_bill_init200k_1spk_sim05_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_reid2_init200k_punc_1spk_sim03_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_reid2_init200k_punc_1spk_sim03_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_punc_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_punc_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_reid2_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_reid2_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_reid2_codec_init200k_1spk_sim03_nosil_1spw_5.3ent_rme_bs320k_lr1e-3_100k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_consec_reid2_codec_init200k_1spk_sim03_nosil_1spw_5.3ent_bs288k_lr5e-4_80k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_800k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_800k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs512k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs512k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_codec_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr3e-3_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_800k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_800k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_pdlr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_pdlr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_1spw_5.3ent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_init_900k_step_0_1_bpe_1prompt_bs512k_lr1e-4_100k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_1spk_init_900k_step_0_1_bpe_1prompt_bs512k_lr1e-4_40k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_long_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr1e-4_400k_valle_nat_flash_large_l24.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accentra_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do_sin.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr5e-4_400k_valle_nat_flash_large_l24.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_accent_step_1_8_bpe_2prompt3_30s_rme_bs256k_lr15e-4_400k_valle_nat_flash_large_l24_do_rpe_s80_a800.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs256k_lr15e-4_400k_valle_nat_flash_large_l24_do_rpe_s80_a800.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_rme_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_do.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs256k_lr15e-4_400k_valle_at_flash_large_l24_rpe_s64_a800.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sin.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sin.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_rope_split2.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_rope_split_sin.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_sin.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope_v.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_step_1_8_bpe_2prompt3_30s_bs512k_lr15e-4_400k_valle_nat_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_step_0_1_bpe_1prompt_bs512k_lr15e-4_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_900k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs512k_lr3e-3_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr1e-3_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr5e-3_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr3e-3_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs384k_lr3e-4_400k_valle_nat_flash_1b_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_0_1_bpe_1prompt_bs320k_lr15e-4_400k_valle_at_flash_large_l24.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24_sope.yaml
-#  - bash examples/valle/scripts/train_sanyuan/train.sh chunk_valle_flash_200k_step_1_8_bpe_2prompt3_30s_bs320k_lr15e-4_400k_valle_nat_flash_large_l24.yaml
-#  - sleep infinity
+  - bash train_job.sh
 
-  name: speech-job
+  name: avgen-job
   mpi: true
   process_count_per_node: 8
 #  sku: 2xND40r_v2
-  sku: 4xND40r_v2
+  sku: G8-A100
 #  sku: 16xND40r_v2
 #  priority: high  # Default: medium
 #  sla_tier: Standard  # Default: premium

@@ -1,0 +1,7 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+# Unwanted files and folders
+pretrained_models
+docs
+ouputs/*
